@@ -1,0 +1,13 @@
+#map {
+    margin: 1em;
+    display: flex; 
+    height: 50vh; 
+    border: 2px solid cornflowerblue;
+    border-radius: 10px;
+  }
+  
+  .leaflet-container {
+    display: flex;
+      width: 80vw;
+    height: 100vh;
+  }

@@ -1,26 +1,66 @@
 import React from 'react'
 import L from 'leaflet'
+import borderData from './border.js'
+import leafletPip from 'leaflet-pip'
+
+// random number generators for lat and long coordinates
+
+function randomInt(max, min) {
+    return (min + (Math.random() * (max - min)))
+}
+
+let randomLong = randomInt(-71.51022535353107, -73.42613118833583)
+
+let randomLat = randomInt(45.007561302382754, 42.730315121762715)
+
+// function to check if random point is within Vermont polygon
 
 
+let gjLayer = L.geoJSON(borderData);
+// let pointInVermont
+
+checkPoint()
+
+function checkPoint() {
+    let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], gjLayer)
+    console.log(pointInVermont)
+    if (pointInVermont.length === 0) {
+        checkPoint()
+    }
+}
+
+
+
+// loop to keep generating random points until point is in Vermont polygon
+
+
+
+// Maplet component
 
 class Maplet extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            lat: 51.505,
-            lng: -0.09,
-            zoom: 8,
+            lat: 43.9,
+            lng: -72.7317,
+            zoom: 8
         }
     }
 
     componentDidMount = () => {
         let myMap = L.map('map').setView([this.state.lat, this.state.lng], this.state.zoom);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-        }).addTo(myMap)
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(myMap);
+
+        L.geoJSON((borderData), {
+            fillOpacity: 0,
+        }).addTo(myMap);
+
+        L.marker([randomLat, randomLong]).addTo(myMap)
+
     }
 
     render() {
@@ -37,3 +77,4 @@ class Maplet extends React.Component {
 
 
 export default Maplet
+

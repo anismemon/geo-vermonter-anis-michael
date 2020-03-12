@@ -3,7 +3,7 @@ import L from 'leaflet'
 import borderData from './border.js'
 import leafletPip from 'leaflet-pip'
 
-// random number generators for lat and long coordinates
+// random number generator for lat and long coordinates
 
 function randomInt(max, min) {
     return (min + (Math.random() * (max - min)))
@@ -13,27 +13,32 @@ let randomLong = randomInt(-71.51022535353107, -73.42613118833583)
 
 let randomLat = randomInt(45.007561302382754, 42.730315121762715)
 
+
 // function to check if random point is within Vermont polygon
 
+let coordinatesArray = []
 
-let gjLayer = L.geoJSON(borderData);
-// let pointInVermont
+let gjLayer = L.geoJSON(borderData)
+
 
 checkPoint()
 
 function checkPoint() {
     let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], gjLayer)
-    console.log(pointInVermont)
-    if (pointInVermont.length === 0) {
-        checkPoint()
+    console.log(coordinatesArray)
+    coordinatesArray = [randomLat, randomLong]
+
+    // loop to keep generating random points until point is in Vermont polygon
+
+    while (pointInVermont.length < 1) {
+
+        randomLong = randomInt(-71.51022535353107, -73.42613118833583)
+        randomLat = randomInt(45.007561302382754, 42.730315121762715)
+        pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], gjLayer)
+        coordinatesArray = [randomLat, randomLong]
     }
+    return coordinatesArray    
 }
-
-
-
-// loop to keep generating random points until point is in Vermont polygon
-
-
 
 // Maplet component
 
@@ -59,7 +64,7 @@ class Maplet extends React.Component {
             fillOpacity: 0,
         }).addTo(myMap);
 
-        L.marker([randomLat, randomLong]).addTo(myMap)
+        L.marker(coordinatesArray).addTo(myMap)
 
     }
 
@@ -72,9 +77,6 @@ class Maplet extends React.Component {
         )
     }
 }
-
-
-
 
 export default Maplet
 

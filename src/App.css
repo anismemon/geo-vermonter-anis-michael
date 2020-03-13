@@ -1,13 +1,52 @@
+#pageContainer {
+  display: grid;
+  height: 95vh;
+  width: 97vw;
+  grid-template-columns: 20fr 20fr 20fr 20fr 20fr;
+  grid-template-rows: 10fr 80fr 10fr;
+  grid-gap: 1rem;
+}
+
+#headerContainer {
+  display: flex;
+  grid-column: 1/6;
+  grid-row: 1/2;
+  border: 2px solid blue;
+  border-radius: 10px;
+}
+
+#centerContainer {
+  display: flex;
+  grid-column: 1/6;
+  grid-row: 2/3;
+  flex-direction: row;
+}
+
+#leaflet-container {
+  display: flex;
+  flex-basis: 60%;
+  border: 2px solid blue;
+  border-radius: 10px;
+  margin-right: .3em;
+}
+
 #map {
-    margin: 1em;
-    display: flex; 
-    /* height: 70vh;  */
-    /* border: 1px solid red; */
-    border-radius: 10px;
-  }
-  
-  .leaflet-container {
-    display: flex;
-      width: 80vw;
-    height: 85vh;
-  }
+  display: flex;
+  width: 60vw;
+  height: 80vh;
+}
+
+#sidebarContainer {
+  display: flex;
+  flex-basis: 40%;
+  border: 2px solid blue;
+  border-radius: 10px;
+}
+
+#footerContainer {
+  display: flex;
+  grid-column: 1/6;
+  grid-row: 3/4;
+  border: 2px solid blue;
+  border-radius: 10px;
+}

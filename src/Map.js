@@ -2,6 +2,7 @@ import React from 'react'
 import L from 'leaflet'
 import borderData from './border.js'
 import leafletPip from 'leaflet-pip'
+// import Footer from './Footer'
 
 // random number generator for lat and long coordinates
 
@@ -16,17 +17,16 @@ let randomLat = randomInt(45.007561302382754, 42.730315121762715)
 
 // function to check if random point is within Vermont polygon
 
-let coordinatesArray = []
+let coordinatesArray = [randomLat, randomLong]
 
 let gjLayer = L.geoJSON(borderData)
-
 
 checkPoint()
 
 function checkPoint() {
     let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], gjLayer)
     console.log(coordinatesArray)
-    coordinatesArray = [randomLat, randomLong]
+    // coordinatesArray = [randomLat, randomLong]
 
     // loop to keep generating random points until point is in Vermont polygon
 
@@ -37,10 +37,11 @@ function checkPoint() {
         pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], gjLayer)
         coordinatesArray = [randomLat, randomLong]
     }
-    return coordinatesArray    
+    // return coordinatesArray
 }
 
 // Maplet component
+
 
 class Maplet extends React.Component {
     constructor(props) {
@@ -54,17 +55,36 @@ class Maplet extends React.Component {
     }
 
     componentDidMount = () => {
-        let myMap = L.map('map').setView([this.state.lat, this.state.lng], this.state.zoom);
+
+        this.myMap = L.map('map').setView([this.state.lat, this.state.lng], this.state.zoom);
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-        }).addTo(myMap);
+            attribution: 'Tiles &copy; Esri &mdash;'
+        }).addTo(this.myMap);
 
         L.geoJSON((borderData), {
             fillOpacity: 0,
-        }).addTo(myMap);
+        }).addTo(this.myMap);
 
-        L.marker(coordinatesArray).addTo(myMap)
+    }
+
+    componentDidUpdate = () => {
+        this.dropPin()
+        this.myMap.setView([this.state.lat, this.state.lng], this.state.zoom);
+
+        L.marker(coordinatesArray).addTo(this.myMap)
+    }
+
+    dropPin = () => {
+        console.log('in dropPin')
+        if (this.props.gameStarted === true && coordinatesArray[0] !== this.state.lat && coordinatesArray[1] !== this.state.lng) {
+            console.log('in the if statement')
+            this.setState({
+                lat: coordinatesArray[0],
+                lng: coordinatesArray[1],
+                zoom: 18
+            })
+        }
 
     }
 

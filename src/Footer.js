@@ -18,7 +18,12 @@ class Footer extends React.Component {
     render() {
 
         return (
-            <button id='startButton' onClick={this.props.startGame}>Start</button>
+            <div>
+            <button className='button' id='startButton' disabled={this.props.startButton.disabled} onClick={this.props.startGame}>Start</button>
+           
+            <button className='button' id='guessButton' disabled={this.props.guessButton.disabled}>Guess</button>
+            <button className='button' id='quitButton' disabled={this.props.quitButton.disabled} >I give up!</button>
+            </div>
         )
     }
 }

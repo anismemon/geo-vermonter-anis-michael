@@ -14,7 +14,6 @@ let randomLong = randomInt(-71.51022535353107, -73.42613118833583)
 
 let randomLat = randomInt(45.007561302382754, 42.730315121762715)
 
-
 // function to check if random point is within Vermont polygon
 
 let coordinatesArray = [randomLat, randomLong]
@@ -71,8 +70,17 @@ class Maplet extends React.Component {
     componentDidUpdate = () => {
         this.dropPin()
         this.myMap.setView([this.state.lat, this.state.lng], this.state.zoom);
-
+        
+        // drops pin
+        
         L.marker(coordinatesArray).addTo(this.myMap)
+        
+        // disables zoom and panning
+
+        this.myMap.dragging.disable()
+        this.myMap.touchZoom.disable()
+        this.myMap.doubleClickZoom.disable()
+        this.myMap.scrollWheelZoom.disable()
     }
 
     dropPin = () => {

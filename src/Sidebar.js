@@ -14,6 +14,7 @@ class Sidebar extends React.Component {
                 <button className='compassButton' id='east' >E</button>
                 <button className='compassButton' id='south' >S</button>
                 <button className='compassButton' id='west' >W</button>
+                <img id='compassRose' src='https://d2d11z2jyoa884.cloudfront.net/product_images/compass-rose_lifestyle_1_20200314080506_500.png' alt='compass rose' />
 
                 <button className='button' id='returnButton' >Return</button>
 

@@ -3,6 +3,7 @@ import Header from './Header.js'
 import Maplet from './Map.js'
 import Sidebar from './Sidebar.js'
 import Footer from './Footer.js'
+import Modal from './Modal.js'
 import borderData from './border.js'
 import leafletPip from 'leaflet-pip'
 import L from 'leaflet'
@@ -22,12 +23,12 @@ class App extends React.Component {
         this.state = {
 
             gamestarted: false,
-            
+
             currentPoint: {
                 lat: 1,
                 lng: 1,
             },
-            
+
             startingPoint: {
                 lat: 1,
                 lng: 1
@@ -49,40 +50,53 @@ class App extends React.Component {
                 disabled: true
             },
 
-            countyName: ''
+            countyName: '',
+
+            modalDisplayed: false
+
         }
+    }
+
+
+
+    displayModal = () => {
+        this.setState({
+            modalDisplayed: true
+        })
     }
 
     // start game function
 
-    
-
     startGame = () => {
         this.setState({
-            gamestarted: true,            
+            gamestarted: true,
         });
         let startState = this.state.startButton
         startState.disabled = true
-        this.setState({            
+        this.setState({
             startState
         });
         let guessState = this.state.guessButton
         guessState.disabled = false
-        this.setState({            
+        this.setState({
             guessState
         });
         let quitState = this.state.quitButton
         quitState.disabled = false
-        this.setState({            
+        this.setState({
             quitState
         });
     }
 
-    
+
 
     render() {
         return (
             <div id='pageContainer'>
+
+                <div id='modal'>
+                    <Modal modalDisplayed={this.state.modalDisplayed} />
+                </div>
 
                 <div id="headerContainer">
                     {/* <Header /> */}
@@ -91,19 +105,19 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted = {this.state.gamestarted}/>
+                        <Maplet gameStarted={this.state.gamestarted} />
                     </div>
 
                     <div id="sidebarContainer">
-                        
-                            <Sidebar points = {this.state.points}/>
-                        
+
+                        <Sidebar points={this.state.points} />
+
                     </div>
 
                 </div>
 
                 <div id="footerContainer">
-                    <Footer startGame = {this.startGame} startButton = {this.state.startButton} guessButton = {this.state.guessButton} quitButton = {this.state.quitButton}/>
+                    <Footer startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
                 </div>
 
             </div>)

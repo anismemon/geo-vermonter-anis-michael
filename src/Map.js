@@ -85,7 +85,7 @@ class Maplet extends React.Component {
     }
 
     dropPin = () => {
-        console.log('in dropPin')
+        // console.log('in dropPin')
         if (this.props.gameStarted === true && coordinatesArray[0] !== this.state.lat && coordinatesArray[1] !== this.state.lng) {
             console.log('in the if statement')
             this.setState({
@@ -101,12 +101,10 @@ class Maplet extends React.Component {
         fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.state.lat}&lon=${this.state.lng}`)
             .then((data) => {
                 return data.json()
-
             }).then((result) => {
-               this.setState({
-                   countyName: result.address.county
-               })
-                alert(`Chris the lat is ${this.state.lat}, lon is ${this.state.lng}, and the countey is ${JSON.stringify(this.state.countyName)}`)
+                this.setState({
+                    countyName: result.address.county
+                })
             })
     }
 

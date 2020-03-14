@@ -9,11 +9,6 @@ import L from 'leaflet'
 
 import './App.css';
 
-// let startButton = document.getElementById('startButton')
-// let guessButton = document.getElementById('guessButton')
-// let quitButton = document.getElementById('quitButton')
-// console.log(quitButton)
-
 class App extends React.Component {
 
     constructor(props) {
@@ -22,61 +17,93 @@ class App extends React.Component {
         this.state = {
 
             gamestarted: false,
-            
-            currentPoint: {
-                lat: 1,
-                lng: 1,
-            },
-            
-            startingPoint: {
-                lat: 1,
-                lng: 1
-            },
-
+            gjLayer: L.geoJSON(borderData),
+            currentLat: 1,
+            currentLng: 1,
+            startingLat: 1,
+            startingLng: 1,
             pathArray: [],
-
             points: 100,
-
             startButton: {
                 disabled: false
             },
-
             guessButton: {
                 disabled: true
             },
-
             quitButton: {
                 disabled: true
             }
         }
     }
 
-    // start game function
+    // random number generator for lat and long coordinates
 
-    
+    randomInt = (max, min) => {
+        return (min + (Math.random() * (max - min)))
+    }
+
+    // function to check if random point is within Vermont polygon    
+
+    checkPoint = () => {
+
+        let randomLong = this.randomInt(-71.51022535353107, -73.42613118833583)
+
+        let randomLat = this.randomInt(45.007561302382754, 42.730315121762715)
+
+        let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
+
+        // loop to keep generating random points until point is in Vermont polygon
+
+        while (pointInVermont.length < 1) {
+
+            randomLong = this.randomInt(-71.51022535353107, -73.42613118833583)
+            randomLat = this.randomInt(45.007561302382754, 42.730315121762715)
+            pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
+        }
+
+        this.setState({
+            currentLat: randomLat,
+            currentLng: randomLong,
+            startingLat: randomLat,
+            startingLng: randomLong,
+            pathArray: ([randomLat, randomLong])
+        })
+         
+    } 
+
+    // start game function  
 
     startGame = () => {
         this.setState({
-            gamestarted: true,            
+            gamestarted: true,
         });
         let startState = this.state.startButton
         startState.disabled = true
-        this.setState({            
+        this.setState({
             startState
         });
         let guessState = this.state.guessButton
         guessState.disabled = false
-        this.setState({            
+        this.setState({
             guessState
         });
         let quitState = this.state.quitButton
         quitState.disabled = false
-        this.setState({            
+        this.setState({
             quitState
         });
+
+        this.checkPoint()
     }
 
+moveNorth = () => {
     
+    this.setState({
+        currentLat: this.statecurrentLat + .002,
+        currentLng: this.state.currentLng,
+        // pathArray.push: 
+    })
+}
 
     render() {
         return (
@@ -89,19 +116,19 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted = {this.state.gamestarted}/>
+                        <Maplet gameStarted={this.state.gamestarted} currentLat={this.state.currentLat} currentLng={this.state.currentLng} />
                     </div>
 
                     <div id="sidebarContainer">
-                        
-                            <Sidebar points = {this.state.points}/>
-                        
+
+                        <Sidebar points={this.state.points} />
+
                     </div>
 
                 </div>
 
                 <div id="footerContainer">
-                    <Footer startGame = {this.startGame} startButton = {this.state.startButton} guessButton = {this.state.guessButton} quitButton = {this.state.quitButton}/>
+                    <Footer startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
                 </div>
 
             </div>)

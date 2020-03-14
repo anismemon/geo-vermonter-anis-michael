@@ -3,8 +3,6 @@ import React from 'react'
 
 class Sidebar extends React.Component {
 
-
-
     render() {
 
         return (
@@ -26,19 +24,9 @@ class Sidebar extends React.Component {
 
                 <button className='button' id='returnButton' >Return</button>
 
-
             </div>
         )
     }
-
-
-
-
-
 }
-
-
-
-
 
 export default Sidebar

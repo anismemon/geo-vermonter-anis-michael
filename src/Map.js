@@ -59,6 +59,13 @@ class Maplet extends React.Component {
         // drops pin at each point along the path
 
         L.marker(this.props.currentPoint).addTo(this.myMap)
+        this.dropPin()
+        this.getCountyName()
+        this.myMap.setView([this.state.lat, this.state.lng], this.state.zoom);
+
+        // drops pin
+
+        L.marker(coordinatesArray).addTo(this.myMap)
 
         // disables zoom and panning
 
@@ -67,6 +74,17 @@ class Maplet extends React.Component {
         this.myMap.doubleClickZoom.disable()
         this.myMap.scrollWheelZoom.disable()
         this.myMap.zoomControl.disable()
+    }
+
+    getCountyName = () => {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.state.lat}&lon=${this.state.lng}`)
+            .then((data) => {
+                return data.json()
+            }).then((result) => {
+                this.setState({
+                    countyName: result.address.county
+                })
+            })
     }
 
     render() {

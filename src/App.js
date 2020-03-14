@@ -1,13 +1,22 @@
 import React from 'react';
+import Modal from 'react-modal';
 import Header from './Header.js'
 import Maplet from './Map.js'
 import Sidebar from './Sidebar.js'
 import Footer from './Footer.js'
+import MyModal from './MyModal.js'
 import borderData from './border.js'
 import leafletPip from 'leaflet-pip'
 import L from 'leaflet'
 
 import './App.css';
+
+// let startButton = document.getElementById('startButton')
+// let guessButton = document.getElementById('guessButton')
+// let quitButton = document.getElementById('quitButton')
+// console.log(quitButton)
+
+Modal.setAppElement(MyModal)
 
 class App extends React.Component {
 
@@ -18,6 +27,7 @@ class App extends React.Component {
 
             gamestarted: false,
             gjLayer: L.geoJSON(borderData),
+
             currentPoint: {
                 lat: 1,
                 lng: 1
@@ -38,7 +48,12 @@ class App extends React.Component {
             },
             quitButton: {
                 disabled: true
-            }
+            },
+
+            countyName: '',
+
+            modalDisplayed: false
+
         }
     }
 
@@ -94,6 +109,15 @@ class App extends React.Component {
     }
 
     // start game function  
+
+
+    displayModal = () => {
+        this.setState({
+            modalDisplayed: true
+        })
+    }
+
+    // start game function
 
     startGame = () => {
         this.setState({
@@ -213,9 +237,14 @@ class App extends React.Component {
         })
     }
 
+
     render() {
         return (
             <div id='pageContainer'>
+
+                <div id='modal'>
+                    <MyModal modalDisplayed={this.state.modalDisplayed} />
+                </div>
 
                 <div id="headerContainer">
                     {/* <Header /> */}
@@ -225,11 +254,13 @@ class App extends React.Component {
 
                     <div id="leaflet-container">
                         <Maplet gameStarted={this.state.gamestarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} />
+                        <Maplet gameStarted={this.state.gamestarted} />
                     </div>
 
                     <div id="sidebarContainer">
 
                         <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} />
+                        <Sidebar points={this.state.points} />
 
                     </div>
 
@@ -237,6 +268,7 @@ class App extends React.Component {
 
                 <div id="footerContainer">
                     <Footer startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
+                    <Footer displayModal={this.displayModal} startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
                 </div>
 
             </div>)

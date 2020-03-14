@@ -27,7 +27,7 @@ class App extends React.Component {
                 lat: 1,
                 lng: 1
             },
-            
+
             pathArray: [],
             score: 100,
             startButton: {
@@ -78,9 +78,20 @@ class App extends React.Component {
                 lat: randomLat,
                 lng: randomLong
             },
-            
-            pathArray: (this.state.startingPoint)
-        })
+
+            //pathArray: (this.state.startingPoint)
+        });
+
+        // and array of moves is given a starting point
+
+        this.setState(state => {
+            let pathArray = state.pathArray.concat(state.startingPoint);
+
+            return {
+                pathArray
+            }
+        });
+        console.log(this.state.pathArray)
 
     }
 
@@ -122,9 +133,20 @@ class App extends React.Component {
                 lng: this.state.currentPoint.lng
             },
             score: this.state.score - 1
-           
-            // pathArray: [this.state.currentLat, this.state.currentLng]
-        })
+
+        });
+
+        // adds new move to array of moves
+
+        this.setState(state => {
+            let pathArray = state.pathArray.concat(state.currentPoint);
+
+            return {
+                pathArray
+            }
+
+        });
+        console.log(this.state.pathArray)
     }
 
     moveSouth = () => {
@@ -134,7 +156,18 @@ class App extends React.Component {
                 lng: this.state.currentPoint.lng
             },
             score: this.state.score - 1
-            
+
+        });
+
+        // adds new move to array of moves
+
+        this.setState(state => {
+            let pathArray = state.pathArray.concat(state.currentPoint);
+
+            return {
+                pathArray
+            }
+
         })
     }
 
@@ -145,6 +178,17 @@ class App extends React.Component {
                 lng: this.state.currentPoint.lng - .002,
             },
             score: this.state.score - 1
+        });
+
+        // adds new move to array of moves
+
+        this.setState(state => {
+            let pathArray = state.pathArray.concat(state.currentPoint);
+
+            return {
+                pathArray
+            }
+
         })
     }
 
@@ -155,6 +199,17 @@ class App extends React.Component {
                 lng: this.state.currentPoint.lng + .002,
             },
             score: this.state.score - 1
+        });
+
+        // adds new move to array of moves
+
+        this.setState(state => {
+            let pathArray = state.pathArray.concat(state.currentPoint);
+
+            return {
+                pathArray
+            }
+
         })
     }
 

@@ -47,7 +47,9 @@ class App extends React.Component {
 
             quitButton: {
                 disabled: true
-            }
+            },
+
+            countyName: ''
         }
     }
 

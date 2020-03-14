@@ -1,11 +1,8 @@
 import React from 'react'
 import L from 'leaflet'
 import borderData from './border.js'
-import leafletPip from 'leaflet-pip'
-// import Footer from './Footer'
 
-// Maplet component
-
+// Map component
 
 class Maplet extends React.Component {
     constructor(props) {
@@ -13,12 +10,14 @@ class Maplet extends React.Component {
 
         this.state = {
             currentPoint: {
-            lat: 43.9,
-            lng: -72.7317
+                lat: 43.9,
+                lng: -72.7317
             },
             zoom: 8
         }
     }
+
+    // initial map area with Vermont border traced
 
     componentDidMount = () => {
 
@@ -34,18 +33,30 @@ class Maplet extends React.Component {
 
     }
 
+    // once game starts, updates and shows all map and point movement
+
     componentDidUpdate = () => {
-        
+
         if ((this.props.gameStarted) && (this.props.currentPoint !== this.state.currentPoint)) {
             this.setState({
                 currentPoint: this.props.currentPoint
-                // lng: this.props.currentLng,
             });
-            
-            this.myMap.setView(this.props.currentPoint, 18)
+
+            this.myMap.setView(this.props.currentPoint, 18);
+
         };
 
-        // drops pin
+        // checks to make sure that at least one move has been made
+
+        if ((this.props.gameStarted) && (this.props.startingPoint !== this.props.currentPoint)) {
+
+            // draws a dotted line from one point to the next
+
+            let breadcrumbs = Array.from(this.props.pathArray)
+
+            L.polyline(breadcrumbs, { color: 'white', dashArray: '20, 20', dashOffset: '20' }).addTo(this.myMap)
+        }
+        // drops pin at each point along the path
 
         L.marker(this.props.currentPoint).addTo(this.myMap)
 
@@ -58,14 +69,10 @@ class Maplet extends React.Component {
         this.myMap.zoomControl.disable()
     }
 
-
-
     render() {
 
         return (
-            <div id='map'>
-
-            </div>
+            <div id='map'> </div>
         )
     }
 }

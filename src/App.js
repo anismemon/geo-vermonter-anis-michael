@@ -58,7 +58,7 @@ class App extends React.Component {
 
         let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
 
-        // loop to keep generating random points until point is in Vermont polygon
+        // loop to keep generating random points until one falls within Vermont 
 
         while (pointInVermont.length < 1) {
 
@@ -77,9 +77,7 @@ class App extends React.Component {
             startingPoint: {
                 lat: randomLat,
                 lng: randomLong
-            },
-
-            //pathArray: (this.state.startingPoint)
+            },            
         });
 
         // and array of moves is given a starting point
@@ -124,6 +122,8 @@ class App extends React.Component {
 
         this.checkPoint()
     }
+
+    // N, S, E, W movement functions (with points subtracted from score)
 
     moveNorth = () => {
 
@@ -224,7 +224,7 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted={this.state.gamestarted} currentPoint={this.state.currentPoint} />
+                        <Maplet gameStarted={this.state.gamestarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} />
                     </div>
 
                     <div id="sidebarContainer">

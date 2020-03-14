@@ -36,13 +36,20 @@ class Maplet extends React.Component {
     }
 
     componentDidUpdate = () => {
-        // this.dropPin()
-        this.myMap.setView([this.props.currentLat, this.props.currentLng], 18);
         
+        if (/*(this.props.gameStarted)*/ this.props.currentLat !== this.state.lat || this.props.currentLng !== this.state.lng) {
+            this.setState({
+                lat: this.props.currentLat,
+                lng: this.props.currentLng,
+            });
+            
+            this.myMap.setView([this.props.currentLat, this.props.currentLng], 18)
+        };
+
         // drops pin
-        
+
         L.marker([this.props.currentLat, this.props.currentLng]).addTo(this.myMap)
-        
+
         // disables zoom and panning
 
         this.myMap.dragging.disable()
@@ -52,7 +59,7 @@ class Maplet extends React.Component {
         this.myMap.zoomControl.disable()
     }
 
-    
+
 
     render() {
 

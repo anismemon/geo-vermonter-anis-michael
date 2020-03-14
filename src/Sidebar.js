@@ -8,10 +8,10 @@ class Sidebar extends React.Component {
         return (
             <div id='sidebarGrid'>
 
-                <button className='compassButton' id='north' >N</button>
-                <button className='compassButton' id='east' >E</button>
-                <button className='compassButton' id='south' >S</button>
-                <button className='compassButton' id='west' >W</button>
+                <button className='compassButton' id='north' onClick={this.props.moveNorth}>N</button>
+                <button className='compassButton' id='east' onClick={this.props.moveEast}>E</button>
+                <button className='compassButton' id='south' onClick={this.props.moveSouth}>S</button>
+                <button className='compassButton' id='west' onClick={this.props.moveWest} >W</button>
 
                 <button className='button' id='returnButton' >Return</button>
 

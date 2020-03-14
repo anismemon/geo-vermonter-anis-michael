@@ -68,8 +68,8 @@ class App extends React.Component {
             startingLng: randomLong,
             pathArray: ([randomLat, randomLong])
         })
-         
-    } 
+
+    }
 
     // start game function  
 
@@ -96,14 +96,37 @@ class App extends React.Component {
         this.checkPoint()
     }
 
-moveNorth = () => {
-    
-    this.setState({
-        currentLat: this.statecurrentLat + .002,
-        currentLng: this.state.currentLng,
-        // pathArray.push: 
-    })
-}
+    moveNorth = () => {
+        
+        this.setState({
+            currentLat: this.state.currentLat + .002,
+            points: this.state.points - 1
+            // currentLng: this.state.currentLng,
+            // pathArray: [this.state.currentLat, this.state.currentLng]
+        })        
+    }
+
+    moveSouth = () => {
+        this.setState({
+            currentLat: this.state.currentLat - .002,
+            points: this.state.points - 1
+            // currentLng: this.state.currentLng
+        })
+    }
+
+    moveWest = () => {
+        this.setState({
+            currentLng: this.state.currentLng - .002, 
+            points: this.state.points - 1
+        })
+    }
+
+    moveEast = () => {
+        this.setState({
+            currentLng: this.state.currentLng + .002,
+            points: this.state.points - 1
+        })
+    }
 
     render() {
         return (
@@ -121,7 +144,7 @@ moveNorth = () => {
 
                     <div id="sidebarContainer">
 
-                        <Sidebar points={this.state.points} />
+                        <Sidebar points={this.state.points} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast}/>
 
                     </div>
 

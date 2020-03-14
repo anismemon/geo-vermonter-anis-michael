@@ -3,8 +3,6 @@ import React from 'react'
 
 class Sidebar extends React.Component {
 
-
-
     render() {
 
         return (
@@ -32,19 +30,9 @@ class Sidebar extends React.Component {
 
 
 
-
             </div>
         )
     }
-
-
-
-
-
 }
-
-
-
-
 
 export default Sidebar

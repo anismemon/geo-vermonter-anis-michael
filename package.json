@@ -7,6 +7,7 @@
     "leaflet-pip": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-modal": "^3.11.2",
     "react-scripts": "3.0.1"
   },
   "scripts": {

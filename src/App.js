@@ -1,9 +1,10 @@
 import React from 'react';
+import Modal from 'react-modal';
 import Header from './Header.js'
 import Maplet from './Map.js'
 import Sidebar from './Sidebar.js'
 import Footer from './Footer.js'
-import Modal from './Modal.js'
+import MyModal from './MyModal.js'
 import borderData from './border.js'
 import leafletPip from 'leaflet-pip'
 import L from 'leaflet'
@@ -14,6 +15,8 @@ import './App.css';
 // let guessButton = document.getElementById('guessButton')
 // let quitButton = document.getElementById('quitButton')
 // console.log(quitButton)
+
+Modal.setAppElement(MyModal)
 
 class App extends React.Component {
 
@@ -95,7 +98,7 @@ class App extends React.Component {
             <div id='pageContainer'>
 
                 <div id='modal'>
-                    <Modal modalDisplayed={this.state.modalDisplayed} />
+                    <MyModal modalDisplayed={this.state.modalDisplayed} />
                 </div>
 
                 <div id="headerContainer">
@@ -117,7 +120,7 @@ class App extends React.Component {
                 </div>
 
                 <div id="footerContainer">
-                    <Footer startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
+                    <Footer displayModal={this.displayModal} startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
                 </div>
 
             </div>)

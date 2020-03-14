@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
 
                 <button className='button' id='returnButton' >Return</button>
 
-                <input type='text' readOnly="readonly" className='displayLocationData' id='score' placeholder={this.props.points}/>
+                <input type='text' readOnly="readonly" className='displayLocationData' id='score' placeholder={this.props.score}/>
 
                 <input type='text' readOnly="readonly" className='displayLocationData' id='latitude' placeholder='Latitude' />
                 <input type='text' readOnly="readonly" className='displayLocationData' id='longitude' placeholder='Longitude'/>

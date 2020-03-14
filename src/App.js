@@ -18,12 +18,18 @@ class App extends React.Component {
 
             gamestarted: false,
             gjLayer: L.geoJSON(borderData),
-            currentLat: 1,
-            currentLng: 1,
-            startingLat: 1,
-            startingLng: 1,
+            currentPoint: {
+                lat: 1,
+                lng: 1
+            },
+
+            startingPoint: {
+                lat: 1,
+                lng: 1
+            },
+            
             pathArray: [],
-            points: 100,
+            score: 100,
             startButton: {
                 disabled: false
             },
@@ -61,12 +67,19 @@ class App extends React.Component {
             pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
         }
 
+        // once an appropriate point is found, coordinates passed into state
+
         this.setState({
-            currentLat: randomLat,
-            currentLng: randomLong,
-            startingLat: randomLat,
-            startingLng: randomLong,
-            pathArray: ([randomLat, randomLong])
+            currentPoint: {
+                lat: randomLat,
+                lng: randomLong
+            },
+            startingPoint: {
+                lat: randomLat,
+                lng: randomLong
+            },
+            
+            pathArray: (this.state.startingPoint)
         })
 
     }
@@ -77,6 +90,9 @@ class App extends React.Component {
         this.setState({
             gamestarted: true,
         });
+
+        // buttons enabled or disabled accordingly 
+
         let startState = this.state.startButton
         startState.disabled = true
         this.setState({
@@ -93,38 +109,52 @@ class App extends React.Component {
             quitState
         });
 
+        // calls checkPoint function
+
         this.checkPoint()
     }
 
     moveNorth = () => {
-        
+
         this.setState({
-            currentLat: this.state.currentLat + .002,
-            points: this.state.points - 1
-            // currentLng: this.state.currentLng,
+            currentPoint: {
+                lat: this.state.currentPoint.lat + .002,
+                lng: this.state.currentPoint.lng
+            },
+            score: this.state.score - 1
+           
             // pathArray: [this.state.currentLat, this.state.currentLng]
-        })        
+        })
     }
 
     moveSouth = () => {
         this.setState({
-            currentLat: this.state.currentLat - .002,
-            points: this.state.points - 1
-            // currentLng: this.state.currentLng
+            currentPoint: {
+                lat: this.state.currentPoint.lat - .002,
+                lng: this.state.currentPoint.lng
+            },
+            score: this.state.score - 1
+            
         })
     }
 
     moveWest = () => {
         this.setState({
-            currentLng: this.state.currentLng - .002, 
-            points: this.state.points - 1
+            currentPoint: {
+                lat: this.state.currentPoint.lat,
+                lng: this.state.currentPoint.lng - .002,
+            },
+            score: this.state.score - 1
         })
     }
 
     moveEast = () => {
         this.setState({
-            currentLng: this.state.currentLng + .002,
-            points: this.state.points - 1
+            currentPoint: {
+                lat: this.state.currentPoint.lat,
+                lng: this.state.currentPoint.lng + .002,
+            },
+            score: this.state.score - 1
         })
     }
 
@@ -139,12 +169,12 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted={this.state.gamestarted} currentLat={this.state.currentLat} currentLng={this.state.currentLng} />
+                        <Maplet gameStarted={this.state.gamestarted} currentPoint={this.state.currentPoint} />
                     </div>
 
                     <div id="sidebarContainer">
 
-                        <Sidebar points={this.state.points} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast}/>
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} />
 
                     </div>
 

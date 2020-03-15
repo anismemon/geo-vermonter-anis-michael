@@ -54,10 +54,15 @@ class App extends React.Component {
 
             countyName: '',
 
+            countyName: '',
+
             town: '',
 
-            modalDisplayed: false
+            modalDisplayed: false,
 
+            modalContent: '',
+
+            countyChosen: ''
         }
     }
 
@@ -112,13 +117,7 @@ class App extends React.Component {
 
     }
 
-    // display modal function  
 
-    displayModal = () => {
-        this.setState({
-            modalDisplayed: true
-        })
-    }
 
     // start game function enables and disables buttons accordingly
 
@@ -287,6 +286,15 @@ class App extends React.Component {
             startState
         });
 
+        // this.setState({
+        //     guessState
+        // });
+        // let quitState = this.state.quitButton
+        // quitState.disabled = true
+        // this.setState({
+        //     quitState
+        // });
+
         console.log(this.state.countyName)
     }
 
@@ -298,12 +306,29 @@ class App extends React.Component {
         })
     }
 
+    // display modal function  
+
+    displayModal = () => {
+        this.setState({
+            modalDisplayed: !this.state.modalDisplayed
+        })
+    }
+
+    hideModal = e => {
+        this.setState({
+            modalDisplayed: !this.state.modalDisplayed
+        });
+    };
+
     render() {
         return (
             <div id='pageContainer'>
 
-                <div id='modal'>
-                    <MyModal modalDisplayed={this.state.modalDisplayed} />
+                <div className="App" id='modal'>
+                    <MyModal onClose={this.hideModal} countyChosen={this.state.countyChosen} modalDisplayed={this.state.modalDisplayed}>
+                       
+                    {this.state.modalContent}
+                    </MyModal>
                 </div>
 
                 <div id="headerContainer">
@@ -319,7 +344,7 @@ class App extends React.Component {
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} />
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} />
 
                     </div>
 

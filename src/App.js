@@ -118,13 +118,7 @@ class App extends React.Component {
 
     }
 
-    // display modal function  
-
-    displayModal = () => {
-        this.setState({
-            modalDisplayed: true
-        })
-    }
+    
 
     // start game function enables and disables buttons accordingly
 
@@ -321,12 +315,29 @@ class App extends React.Component {
         })
     }
 
+    // display modal function  
+
+    displayModal = () => {
+        this.setState({
+            modalDisplayed: !this.state.modalDisplayed
+        })
+    }
+
+    hideModal = e => {
+        this.setState({
+          modalDisplayed: !this.state.modalDisplayed
+        });
+      };
+
     render() {
         return (
             <div id='pageContainer'>
 
-                <div id='modal'>
-                    <MyModal modalDisplayed={this.state.modalDisplayed} />
+                <div className="App" id='modal'>
+                    <MyModal onClose={this.hideModal} modalDisplayed={this.state.modalDisplayed}>
+                        Modal Contents
+                    {this.props.children}
+                    </MyModal>
                 </div>
 
                 <div id="headerContainer">

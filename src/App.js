@@ -43,15 +43,15 @@ class App extends React.Component {
             startButton: {
                 disabled: false
             },
-            
+
             guessButton: {
                 disabled: true
             },
-            
+
             quitButton: {
                 disabled: true
             },
-            
+
             countyName: '',
 
             cityName: '',
@@ -62,8 +62,11 @@ class App extends React.Component {
 
             hamletName: '',
 
-            modalDisplayed: false
+            modalDisplayed: false,
 
+            modalContent: '',
+
+            countyChosen: ''
         }
     }
 
@@ -118,7 +121,7 @@ class App extends React.Component {
 
     }
 
-    
+
 
     // start game function enables and disables buttons accordingly
 
@@ -283,10 +286,10 @@ class App extends React.Component {
 
         let startState = this.state.startButton
         startState.disabled = true
-        
+
         let guessState = this.state.guessButton
         guessState.disabled = true
-        
+
         this.setState({
             // startButton: false, 
             // guessButton: false,
@@ -294,7 +297,7 @@ class App extends React.Component {
             guessState,
             startState
         });
-        
+
         // this.setState({
         //     guessState
         // });
@@ -325,18 +328,18 @@ class App extends React.Component {
 
     hideModal = e => {
         this.setState({
-          modalDisplayed: !this.state.modalDisplayed
+            modalDisplayed: !this.state.modalDisplayed
         });
-      };
+    };
 
     render() {
         return (
             <div id='pageContainer'>
 
                 <div className="App" id='modal'>
-                    <MyModal onClose={this.hideModal} modalDisplayed={this.state.modalDisplayed}>
-                        Modal Contents
-                    {this.props.children}
+                    <MyModal onClose={this.hideModal} countyChosen={this.state.countyChosen} modalDisplayed={this.state.modalDisplayed}>
+                       
+                    {this.state.modalContent}
                     </MyModal>
                 </div>
 
@@ -353,7 +356,7 @@ class App extends React.Component {
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint}/>
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} />
 
                     </div>
 

@@ -8,6 +8,8 @@ class Maplet extends React.Component {
     constructor(props) {
         super(props)
 
+        // initial coordinates for center of Vermont, updated one step behind the current location in App's state
+
         this.state = {
             currentPoint: {
                 lat: 43.9,
@@ -33,7 +35,7 @@ class Maplet extends React.Component {
 
     }
 
-    // once game starts, updates and shows all map and point movement
+    // once game starts, updates and shows all map and player movement
 
     componentDidUpdate = () => {
 
@@ -55,6 +57,7 @@ class Maplet extends React.Component {
             let breadcrumbs = Array.from(this.props.pathArray)
 
             L.polyline(breadcrumbs, { color: 'white', dashArray: '20, 20', dashOffset: '20' }).addTo(this.myMap)
+
         }
         // drops pin at each point along the path
 
@@ -68,11 +71,22 @@ class Maplet extends React.Component {
         this.myMap.scrollWheelZoom.disable()
         this.myMap.zoomControl.disable()
 
-        
-       
-    }
+        // alerts that points are getting low
 
-    
+        if (this.props.score === 20) {
+            alert("You only have 20 points left, you might want to guess!")
+        }
+
+        if (this.props.score === 10) {
+            alert("You only have 10 points left, you REALLY should guess!!!")
+        }
+
+        // no points left, game automatically ends
+        
+        if (this.props.score === 0) {
+            this.props.endGame()
+        }
+    }
 
     render() {
 

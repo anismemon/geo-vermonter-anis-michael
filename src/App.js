@@ -13,6 +13,13 @@ import './App.css';
 
 Modal.setAppElement(MyModal)
 
+// global variables for storing game's random lat and long
+
+let randomLat
+let randomLong
+
+// App component with the majority of game's functionality and data
+
 class App extends React.Component {
 
     constructor(props) {
@@ -20,11 +27,13 @@ class App extends React.Component {
 
         this.state = {
 
-            gameStarted: false,
+            gameStarted: false,           
 
-            gameEnded: false,
+            score: 100,
 
             gjLayer: L.geoJSON(borderData),
+
+            // geographical and political info
 
             currentPoint: {
                 lat: 1,
@@ -38,25 +47,21 @@ class App extends React.Component {
 
             pathArray: [],
 
-            score: 100,
-
-            startButton: {
-                disabled: false
-            },
-
-            guessButton: {
-                disabled: true
-            },
-
-            quitButton: {
-                disabled: true
-            },
-
-            countyName: '',
-
             countyName: '',
 
             town: '',
+
+            // buttons 
+
+            startDisabled: false,
+            guessDisabled: true,
+            quitDisabled: true,
+            returnDisabled: true,
+            northDisabled: true,
+            southDisabled: true,
+            eastDisabled: true,
+            westDisabled: true,
+
 
             modalDisplayed: false,
 
@@ -76,9 +81,9 @@ class App extends React.Component {
 
     checkPoint = () => {
 
-        let randomLong = this.randomInt(-71.51022535353107, -73.42613118833583)
+        randomLong = this.randomInt(-71.51022535353107, -73.42613118833583)
 
-        let randomLat = this.randomInt(45.007561302382754, 42.730315121762715)
+        randomLat = this.randomInt(45.007561302382754, 42.730315121762715)
 
         let pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
 
@@ -91,7 +96,7 @@ class App extends React.Component {
             pointInVermont = leafletPip.pointInLayer([randomLong, randomLat], this.state.gjLayer)
         }
 
-        // once an appropriate point is found, coordinates passed into state
+        // once an appropriate point is found, coordinates passed into state ...
 
         this.setState({
             currentPoint: {
@@ -104,7 +109,7 @@ class App extends React.Component {
             },
         });
 
-        // and array of moves is given a starting point
+        // ... the array of moves is given a starting point ...
 
         this.setState(state => {
             let pathArray = state.pathArray.concat(state.startingPoint);
@@ -114,7 +119,9 @@ class App extends React.Component {
             }
         });
 
+        // ... and the location info is fetched
 
+        this.getCountyName()
     }
 
 
@@ -122,36 +129,25 @@ class App extends React.Component {
     // start game function enables and disables buttons accordingly
 
     startGame = () => {
+
         this.setState({
             gameStarted: true,
-        });
-
-        // buttons enabled or disabled accordingly 
-
-        let startState = this.state.startButton
-        startState.disabled = true
-        this.setState({
-            startState
-        });
-        let guessState = this.state.guessButton
-        guessState.disabled = false
-        this.setState({
-            guessState
-        });
-        let quitState = this.state.quitButton
-        quitState.disabled = false
-        this.setState({
-            quitState
+            startDisabled: true,
+            guessDisabled: false,
+            quitDisabled: false,
+            returnDisabled: false,
+            northDisabled: false,
+            southDisabled: false,
+            eastDisabled: false,
+            westDisabled: false
         });
 
         // calls checkPoint function
 
         this.checkPoint();
-
-
     }
 
-    // cardinal directional movement functions (subtracts points from score)
+    // cardinal directional movement functions (that subtract points from score)
 
     moveNorth = () => {
 
@@ -172,10 +168,8 @@ class App extends React.Component {
             return {
                 pathArray
             }
-
         });
         console.log(this.state.pathArray)
-        this.getCountyName()
     }
 
     moveSouth = () => {
@@ -196,11 +190,8 @@ class App extends React.Component {
             return {
                 pathArray
             }
-
         })
-
         console.log(this.state.countyName)
-        this.getCountyName()
     }
 
     moveWest = () => {
@@ -220,10 +211,7 @@ class App extends React.Component {
             return {
                 pathArray
             }
-
         })
-
-        this.getCountyName()
     }
 
     moveEast = () => {
@@ -243,17 +231,15 @@ class App extends React.Component {
             return {
                 pathArray
             }
-
-        })
-
-        this.getCountyName()
+        })        
     }
 
-    // fetches county name from nominatim using coordinates
+    // fetches county and town names from nominatim using random lat and long coordinates
 
     getCountyName = () => {
         console.log(this.state.startingPoint.lat)
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.state.startingPoint.lat}&lon=${this.state.startingPoint.lng}`)
+       
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${randomLat}&lon=${randomLong}`)
             .then((data) => {
                 return data.json()
             }).then((result) => {
@@ -265,25 +251,24 @@ class App extends React.Component {
                     town: result.address.town || result.address.city || result.address.village || result.address.hamlet
                 })
             })
-
     }
 
+    // function to end game (which then displays initial location info stored in App's state and copied in Sidebar's state)
 
-    quitGame = () => {
+    endGame = () => {
 
-        // buttons  disabled  
-
-        let startState = this.state.startButton
-        startState.disabled = true
-
-        let guessState = this.state.guessButton
-        guessState.disabled = true
-
+        // disables buttons
+        
         this.setState({
+            
+            gameStarted: false,            
+            guessDisabled: true,
+            returnDisabled: true,
+            northDisabled: true,
+            southDisabled: true,
+            eastDisabled: true,
+            westDisabled: true
 
-            gameEnded: true,
-            guessState,
-            startState
         });
 
         // this.setState({
@@ -338,20 +323,20 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted={this.state.gameStarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} getCountyName={this.state.getCountyName} />
+                        <Maplet gameStarted={this.state.gameStarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} getCountyName={this.getCountyName} score={this.state.score} endGame={this.endGame} />
 
                     </div>
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} />
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameStarted={this.state.gameStarted} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} northDisabled={this.state.northDisabled} southDisabled={this.state.southDisabled} eastDisabled={this.state.eastDisabled} westDisabled={this.state.westDisabled} />
 
                     </div>
 
                 </div>
 
                 <div id="footerContainer">
-                    <Footer displayModal={this.displayModal} startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} quitGame={this.quitGame} />
+                    <Footer displayModal={this.displayModal} startGame={this.startGame} startDisabled={this.state.startDisabled} guessDisabled={this.state.guessDisabled} quitDisabled={this.state.quitDisabled} endGame={this.endGame} />
 
                 </div>
 

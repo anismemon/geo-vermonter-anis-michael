@@ -43,24 +43,18 @@ class App extends React.Component {
             startButton: {
                 disabled: false
             },
-            
+
             guessButton: {
                 disabled: true
             },
-            
+
             quitButton: {
                 disabled: true
             },
-            
+
             countyName: '',
 
-            cityName: '',
-
-            townName: '',
-
-            villageName: '',
-
-            hamletName: '',
+            town: '',
 
             modalDisplayed: false
 
@@ -131,9 +125,6 @@ class App extends React.Component {
     startGame = () => {
         this.setState({
             gameStarted: true,
-            // startButton: false,
-            // guessButton: true,
-            // quitButton: true
         });
 
         // buttons enabled or disabled accordingly 
@@ -259,24 +250,20 @@ class App extends React.Component {
         this.getCountyName()
     }
 
+    // fetches county name from nominatim using coordinates
+
     getCountyName = () => {
         console.log(this.state.startingPoint.lat)
         fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.state.startingPoint.lat}&lon=${this.state.startingPoint.lng}`)
             .then((data) => {
                 return data.json()
             }).then((result) => {
-                console.log(result)
-                //let nameArray = result.display_name.split(',')
-                let countyName = result.address.county
-                // let countyName = nameArray[3]
 
-                console.log(countyName)
+                console.log(result)
+
                 this.setState({
                     countyName: result.address.county,
-                    cityName: result.address.city,
-                    townName: result.address.town,
-                    villageName: result.address.village,
-                    hamletName: result.address.hamlet
+                    town: result.address.town || result.address.city || result.address.village || result.address.hamlet
                 })
             })
 
@@ -289,26 +276,16 @@ class App extends React.Component {
 
         let startState = this.state.startButton
         startState.disabled = true
-        
+
         let guessState = this.state.guessButton
         guessState.disabled = true
-        
+
         this.setState({
-            // startButton: false, 
-            // guessButton: false,
+
             gameEnded: true,
             guessState,
             startState
         });
-        
-        // this.setState({
-        //     guessState
-        // });
-        // let quitState = this.state.quitButton
-        // quitState.disabled = true
-        // this.setState({
-        //     quitState
-        // });
 
         console.log(this.state.countyName)
     }
@@ -342,7 +319,7 @@ class App extends React.Component {
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint}/>
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} />
 
                     </div>
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from "react-dom";
 
-
 class MyModal extends React.Component {
 
   render() {

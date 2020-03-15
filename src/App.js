@@ -11,11 +11,6 @@ import L from 'leaflet'
 
 import './App.css';
 
-// let startButton = document.getElementById('startButton')
-// let guessButton = document.getElementById('guessButton')
-// let quitButton = document.getElementById('quitButton')
-// console.log(quitButton)
-
 Modal.setAppElement(MyModal)
 
 class App extends React.Component {
@@ -25,7 +20,10 @@ class App extends React.Component {
 
         this.state = {
 
-            gamestarted: false,
+            gameStarted: false,
+
+            gameEnded: false,
+
             gjLayer: L.geoJSON(borderData),
 
             currentPoint: {
@@ -39,18 +37,30 @@ class App extends React.Component {
             },
 
             pathArray: [],
+
             score: 100,
+
             startButton: {
                 disabled: false
             },
+            
             guessButton: {
                 disabled: true
             },
+            
             quitButton: {
                 disabled: true
             },
-
+            
             countyName: '',
+
+            cityName: '',
+
+            townName: '',
+
+            villageName: '',
+
+            hamletName: '',
 
             modalDisplayed: false
 
@@ -92,7 +102,7 @@ class App extends React.Component {
             startingPoint: {
                 lat: randomLat,
                 lng: randomLong
-            },            
+            },
         });
 
         // and array of moves is given a starting point
@@ -104,12 +114,11 @@ class App extends React.Component {
                 pathArray
             }
         });
-        console.log(this.state.pathArray)
+
 
     }
 
-    // start game function  
-
+    // display modal function  
 
     displayModal = () => {
         this.setState({
@@ -117,11 +126,14 @@ class App extends React.Component {
         })
     }
 
-    // start game function
+    // start game function enables and disables buttons accordingly
 
     startGame = () => {
         this.setState({
-            gamestarted: true,
+            gameStarted: true,
+            // startButton: false,
+            // guessButton: true,
+            // quitButton: true
         });
 
         // buttons enabled or disabled accordingly 
@@ -144,10 +156,12 @@ class App extends React.Component {
 
         // calls checkPoint function
 
-        this.checkPoint()
+        this.checkPoint();
+
+
     }
 
-    // N, S, E, W movement functions (with points subtracted from score)
+    // cardinal directional movement functions (subtracts points from score)
 
     moveNorth = () => {
 
@@ -171,6 +185,7 @@ class App extends React.Component {
 
         });
         console.log(this.state.pathArray)
+        this.getCountyName()
     }
 
     moveSouth = () => {
@@ -193,6 +208,9 @@ class App extends React.Component {
             }
 
         })
+
+        console.log(this.state.countyName)
+        this.getCountyName()
     }
 
     moveWest = () => {
@@ -214,6 +232,8 @@ class App extends React.Component {
             }
 
         })
+
+        this.getCountyName()
     }
 
     moveEast = () => {
@@ -235,8 +255,71 @@ class App extends React.Component {
             }
 
         })
+
+        this.getCountyName()
     }
 
+    getCountyName = () => {
+        console.log(this.state.startingPoint.lat)
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${this.state.startingPoint.lat}&lon=${this.state.startingPoint.lng}`)
+            .then((data) => {
+                return data.json()
+            }).then((result) => {
+                console.log(result)
+                //let nameArray = result.display_name.split(',')
+                let countyName = result.address.county
+                // let countyName = nameArray[3]
+
+                console.log(countyName)
+                this.setState({
+                    countyName: result.address.county,
+                    cityName: result.address.city,
+                    townName: result.address.town,
+                    villageName: result.address.village,
+                    hamletName: result.address.hamlet
+                })
+            })
+
+    }
+
+
+    quitGame = () => {
+
+        // buttons  disabled  
+
+        let startState = this.state.startButton
+        startState.disabled = true
+        
+        let guessState = this.state.guessButton
+        guessState.disabled = true
+        
+        this.setState({
+            // startButton: false, 
+            // guessButton: false,
+            gameEnded: true,
+            guessState,
+            startState
+        });
+        
+        // this.setState({
+        //     guessState
+        // });
+        // let quitState = this.state.quitButton
+        // quitState.disabled = true
+        // this.setState({
+        //     quitState
+        // });
+
+        console.log(this.state.countyName)
+    }
+
+    // returns to starting point 
+
+    returnToStart = () => {
+        this.setState({
+            currentPoint: this.state.startingPoint
+        })
+    }
 
     render() {
         return (
@@ -253,22 +336,21 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted={this.state.gamestarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} />
-                        <Maplet gameStarted={this.state.gamestarted} />
+                        <Maplet gameStarted={this.state.gameStarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} getCountyName={this.state.getCountyName} />
+
                     </div>
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} />
-                        <Sidebar points={this.state.points} />
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameEnded={this.state.gameEnded} countyName={this.state.countyName} townName={this.state.townName} villageName={this.state.villageName} hamletName={this.state.hamletName} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint}/>
 
                     </div>
 
                 </div>
 
                 <div id="footerContainer">
-                    <Footer startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
-                    <Footer displayModal={this.displayModal} startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} />
+                    <Footer displayModal={this.displayModal} startGame={this.startGame} startButton={this.state.startButton} guessButton={this.state.guessButton} quitButton={this.state.quitButton} quitGame={this.quitGame} />
+
                 </div>
 
             </div>)

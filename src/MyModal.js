@@ -23,7 +23,7 @@ class MyModal extends React.Component {
     }
   }
 
- onDialogClick(event) {
+  onDialogClick(event) {
     event.stopPropagation();
   }
 
@@ -31,16 +31,20 @@ class MyModal extends React.Component {
     this.props.onClose && this.props.onClose(e)
   }
 
-  
-  
-  chooseCounty = e => {
-  let county = this.Select.Option
-  console.log(this.Select.Option)
-  alert(county)
-    
-    this.setState({
-      county: this.props.countyChosen
-    })
+
+  chooseCounty = e => { //this function does not work!
+    let playerSelection = this.Select.Option // this does not retrieve anything
+    alert(playerSelection)
+
+    if ((playerSelection) === (this.state.countyName)) {
+      this.props.endGame()
+      alert("Wow! You really know Vermont! Good job!!")
+    } else {
+      // this.setState({ // this can't go here
+      //   score: this.state.score - 10
+      // });
+      alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
+    }
   }
 
   render() {
@@ -67,7 +71,7 @@ class MyModal extends React.Component {
                 <option value='Windham County'>Windham</option>
                 <option value='Windsor County'>Windsor</option>
               </select>
-              
+
               <div>
                 <button
                   onClick={e => {

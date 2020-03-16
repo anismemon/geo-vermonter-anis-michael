@@ -27,7 +27,7 @@ class App extends React.Component {
 
         this.state = {
 
-            gameStarted: false,           
+            gameStarted: false,
 
             score: 100,
 
@@ -62,6 +62,7 @@ class App extends React.Component {
             eastDisabled: true,
             westDisabled: true,
 
+            // modal keys
 
             modalDisplayed: false,
 
@@ -124,8 +125,6 @@ class App extends React.Component {
         this.getCountyName()
     }
 
-
-
     // start game function enables and disables buttons accordingly
 
     startGame = () => {
@@ -169,7 +168,6 @@ class App extends React.Component {
                 pathArray
             }
         });
-        console.log(this.state.pathArray)
     }
 
     moveSouth = () => {
@@ -191,7 +189,6 @@ class App extends React.Component {
                 pathArray
             }
         })
-        console.log(this.state.countyName)
     }
 
     moveWest = () => {
@@ -231,20 +228,17 @@ class App extends React.Component {
             return {
                 pathArray
             }
-        })        
+        })
     }
 
     // fetches county and town names from nominatim using random lat and long coordinates
 
     getCountyName = () => {
-        console.log(this.state.startingPoint.lat)
-       
+
         fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${randomLat}&lon=${randomLong}`)
             .then((data) => {
                 return data.json()
             }).then((result) => {
-
-                console.log(result)
 
                 this.setState({
                     countyName: result.address.county,
@@ -253,15 +247,29 @@ class App extends React.Component {
             })
     }
 
+    // checks whether player's guess is correct (but is currently not called and I'm not sure where it needs to be called)
+
+    checkAnswer = () => {
+        if ((this.state.countyChosen) === (this.state.countyName)) {
+            this.endGame()
+            alert("Wow! You really know Vermont! Good job!!")
+        } else {
+            this.setState({
+                score: this.state.score - 10
+            });
+            alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
+        }
+    }
+
     // function to end game (which then displays initial location info stored in App's state and copied in Sidebar's state)
 
     endGame = () => {
 
         // disables buttons
-        
+
         this.setState({
-            
-            gameStarted: false,            
+
+            gameStarted: false,
             guessDisabled: true,
             returnDisabled: true,
             northDisabled: true,
@@ -270,15 +278,6 @@ class App extends React.Component {
             westDisabled: true
 
         });
-
-        // this.setState({
-        //     guessState
-        // });
-        // let quitState = this.state.quitButton
-        // quitState.disabled = true
-        // this.setState({
-        //     quitState
-        // });
 
         console.log(this.state.countyName)
     }
@@ -311,8 +310,8 @@ class App extends React.Component {
 
                 <div className="App" id='modal'>
                     <MyModal onClose={this.hideModal} countyChosen={this.state.countyChosen} modalDisplayed={this.state.modalDisplayed}>
-                       
-                    {this.state.modalContent}
+
+                        {this.state.modalContent}
                     </MyModal>
                 </div>
 

@@ -6,6 +6,8 @@
   margin-left: 10em;
   margin-right: 6em;
   font-weight: 700;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 .compassButton {
@@ -15,6 +17,8 @@
   height: 2em;
   align-self: center;
   font-weight: 700;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 
@@ -60,6 +64,8 @@
   border: 2px solid blue;
   border-radius: 10px;
   align-items: center;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 /* Map styling */
@@ -84,6 +90,8 @@
   border: 2px solid blue;
   border-radius: 10px;
   font-weight: 900;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 #sidebarGrid {
@@ -153,6 +161,8 @@
   margin: 1em;
   font-size: 1em;
   font-weight: 700;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 
@@ -175,6 +185,9 @@
   text-align: center;
   font-size: 1em;
   width: 3em;
+  font-weight: 700;
+  background-color: rgb(61, 95, 3);
+  color: rgb(10, 154, 250);
 }
 
 #latitude {

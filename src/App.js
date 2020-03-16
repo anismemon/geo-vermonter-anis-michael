@@ -249,17 +249,17 @@ class App extends React.Component {
 
     // checks whether player's guess is correct (but is currently not called and I'm not sure where it needs to be called)
 
-    checkAnswer = () => {
-        if ((this.state.countyChosen) === (this.state.countyName)) {
-            this.endGame()
-            alert("Wow! You really know Vermont! Good job!!")
-        } else {
-            this.setState({
-                score: this.state.score - 10
-            });
-            alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
-        }
-    }
+    // checkAnswer = () => {
+    //     if ((this.state.countyChosen) === (this.state.countyName)) {
+    //         this.endGame()
+    //         alert("Wow! You really know Vermont! Good job!!")
+    //     } else {
+    //         this.setState({
+    //             score: this.state.score - 10
+    //         });
+    //         alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
+    //     }
+    // }
 
     // function to end game (which then displays initial location info stored in App's state and copied in Sidebar's state)
 
@@ -280,6 +280,12 @@ class App extends React.Component {
         });
 
         console.log(this.state.countyName)
+    }
+
+    updateScore = (value) => {
+        this.setState({
+            score: this.state.score + value
+        })
     }
 
     // returns to starting point 
@@ -309,7 +315,13 @@ class App extends React.Component {
             <div id='pageContainer'>
 
                 <div className="App" id='modal'>
-                    <MyModal onClose={this.hideModal} countyChosen={this.state.countyChosen} modalDisplayed={this.state.modalDisplayed}>
+                    <MyModal
+                        onClose={this.hideModal}
+                        endGame={this.endGame}
+                        countyChosen={this.state.countyName}
+                        modalDisplayed={this.state.modalDisplayed}
+                        score={this.updateScore}
+                    >
 
                         {this.state.modalContent}
                     </MyModal>

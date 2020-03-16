@@ -3,6 +3,15 @@ import React from 'react'
 
 
 class MyModal extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+      selectedCounty: ''
+
+    }
+  }
 
 
   listenKeyboard(event) {
@@ -33,19 +42,20 @@ class MyModal extends React.Component {
 
 
   chooseCounty = e => { //this function does not work!
-    let playerSelection = this.Select.Option // this does not retrieve anything
-    alert(playerSelection)
+    alert(`props from parent = ${this.props.countyChosen}, county selected = ${this.state.selectedCounty}`)
+    
 
-    if ((playerSelection) === (this.state.countyName)) {
+    if ((this.props.countyChosen) === (this.state.selectedCounty)) {
       this.props.endGame()
       alert("Wow! You really know Vermont! Good job!!")
     } else {
-      // this.setState({ // this can't go here
-      //   score: this.state.score - 10
-      // });
+      this.props.score(-10)
       alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
     }
   }
+
+  handleChange = (event) =>
+    this.setState({selectedCounty: event.target.value});
 
   render() {
 
@@ -54,7 +64,7 @@ class MyModal extends React.Component {
         <div>
           <div className="modal-content-div">
             <div className="modal-dialog-div" onClick={this.onDialogClick}>
-              <select id="county-select">
+              <select id="county-select" onChange={this.handleChange}>
                 <option value="">--Please choose a County--</option>
                 <option value='Addison County'>Addison</option>
                 <option value='Bennington County'>Bennington</option>

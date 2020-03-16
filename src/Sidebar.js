@@ -43,15 +43,13 @@ class Sidebar extends React.Component {
                 <button className='compassButton' id='west' disabled={this.props.westDisabled} onClick={this.props.moveWest} >W</button>
 
                 <img id='compassRose' src='https://d2d11z2jyoa884.cloudfront.net/product_images/compass-rose_lifestyle_1_20200314080506_500.png' alt='compass rose' />
-
-                <button className='button' id='returnButton' onClick={this.props.returnToStart}>Return</button>
-
-                <input type='text' readOnly="readonly" className='displayLocationData' id='score' placeholder={this.props.score} />
-
-                <input type='text' readOnly="readonly" className='displayLocationData' id='latitude' placeholder={this.state.coordinates.lat} />
-                <input type='text' readOnly="readonly" className='displayLocationData' id='longitude' placeholder={this.state.coordinates.lng} />
-                <input type='text' readOnly="readonly" className='displayLocationData' id='county' placeholder={this.state.county} />
-                <input type='text' readOnly="readonly" className='displayLocationData' id='town' placeholder={this.state.town} />
+              
+                <button className='button' name='returnButton' id='returnButton' onClick={this.props.returnToStart}>Return</button>
+                <div id='score'>Score - <input id='scoreBox' type='text' readOnly="readonly" className='score' placeholder={this.props.score} /></div>
+                <div id='latitude'>Latitude - <input type='text' readOnly="readonly" className='displayLocationData'  placeholder={this.state.coordinates.lat} /></div>
+                <div id='longitude'>Longitude - <input type='text' readOnly="readonly" className='displayLocationData'  placeholder={this.state.coordinates.lng} /></div>
+                <div id='county'>County -<input type='text' readOnly="readonly" className='displayLocationData'  placeholder={this.state.county} /></div>
+                <div id='town'>Town -<input type='text' readOnly="readonly" className='displayLocationData'  placeholder={this.state.town} /></div>
 
                 <input type='text' readOnly='readonly' className='displayLocationData' id='winCondition' placeholder='Correct // Wrong -10pts' />
 

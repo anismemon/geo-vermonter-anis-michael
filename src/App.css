@@ -1,8 +1,11 @@
+/* Button class styling */
+
 .button {
   border: 2px solid blue;
   border-radius: 5px;
   margin-left: 10em;
   margin-right: 6em;
+  font-weight: 700;
 }
 
 .compassButton {
@@ -11,7 +14,12 @@
   margin: 2em;
   height: 2em;
   align-self: center;
+  font-weight: 700;
 }
+
+
+
+/* grid for page layout */
 
 #pageContainer {
   display: grid;
@@ -19,7 +27,7 @@
   width: 97vw;
   grid-template-columns: 20fr 20fr 20fr 20fr 20fr;
   grid-template-rows: 10fr 80fr 10fr;
-  grid-gap: 1rem;
+  grid-gap: .1rem;
 }
 
 #headerContainer {
@@ -28,6 +36,14 @@
   grid-row: 1/2;
   border: 2px solid blue;
   border-radius: 10px;
+  justify-content: center;
+  background-color: rgb(61, 95, 3);
+}
+
+  h1 {
+    color: rgb(10, 154, 250);
+    font-size: 3em;
+    margin: 0em;
   }
 
 #centerContainer {
@@ -36,6 +52,17 @@
   grid-row: 2/3;
   flex-direction: row;
 }
+
+#footerContainer {
+  display: flex;
+  grid-column: 1/6;
+  grid-row: 3/4;
+  border: 2px solid blue;
+  border-radius: 10px;
+  align-items: center;
+}
+
+/* Map styling */
 
 #leaflet-container {
   flex-basis: 60%;
@@ -49,7 +76,133 @@
   height: 90vh;
 }
 
+/* sidebar styling and grid */
 
+
+#sidebarContainer {
+  flex-basis: 40%;
+  border: 2px solid blue;
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+#sidebarGrid {
+  display: grid;
+  grid-template-columns: 10fr 15fr 10fr 55fr;
+  grid-template-rows: repeat(15 4em);
+}
+
+/* direction and return controls */
+
+#compassRose {
+  width: 4em;
+  height: 4em;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  align-self: center;
+  justify-self: center;
+}
+
+#north {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+#west {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  margin-right: 0em;
+}
+
+#east {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  margin-left: 0em;
+}
+
+#south {
+  grid-column: 2/3;
+  grid-row: 3/4;
+}
+
+#returnButton {
+  grid-column: 1/4;
+  grid-row: 5/6;
+  width: 10em;
+  margin: 0em 1.7em;
+  padding: .5em;
+}
+
+/* county map display */
+
+#vtCountyMap {
+  grid-column: 4/5;
+  grid-row: 1/9;
+  height: 400px;
+  width: 260px;
+}
+
+/* display data area */
+
+.displayLocationData {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  text-align: left;
+  margin: 1em;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+
+#score {
+  grid-column: 1/4;
+  grid-row: 7/8;
+  width: 10em;
+  margin: 0em 1em;
+  border: 2px solid blue;
+  border-radius: 10px;
+  text-align: center;
+  
+}
+
+.score {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  text-align: center;
+  font-size: 1em;
+  width: 3em;
+}
+
+#latitude {
+  grid-column: 2/5;
+  grid-row: 10/11;
+}
+
+#longitude {
+  grid-column: 2/5;
+  grid-row: 11/12;
+}
+
+#county {
+  grid-column: 2/5;
+  grid-row: 12/13;
+}
+
+#town {
+  grid-column: 2/5;
+  grid-row: 13/14;
+}
+
+#winCondition {
+  grid-column: 1/5;
+  grid-row: 14/15;
+}
+
+/* Modal window styling */
 
 .modal-content-div {
   position: fixed;
@@ -84,113 +237,4 @@
   cursor: default;
   border-radius: 4px;
   color: white;
-}
-
-#sidebarContainer {
-  flex-basis: 40%;
-  border: 2px solid blue;
-  border-radius: 10px;
-}
-
-.displayLocationData {
-  text-align: center;
-}
-
-#sidebarGrid {
-  display: grid;
-  grid-template-columns: 10fr 15fr 10fr 55fr;
-  grid-template-rows: repeat(17, 3em);
-  }
-
-#vtCountyMap {
-  grid-column: 4/5;
-  grid-row: 1/10; 
-  height: 400px;
-  width: 260px;
-}
-
-#compassRose {
-  width: 4em;
-  height: 4em;
-  grid-column: 2/3;
-  grid-row: 2/3;
-  align-self: center;
-  justify-self: center;
-}
-
-#north {
-  grid-column: 2/3;
-  grid-row: 1/2;
-  
-}
-
-#west {
-  grid-column: 1/2;
-  grid-row: 2/3;
-  margin-right: 0em;
-  
-}
-
-#east {
-  grid-column: 3/4;
-  grid-row: 2/3;
-margin-left: 0em;
-}
-
-#south {
-  grid-column: 2/3;
-  grid-row: 3/4;
-  
-}
-
-#returnButton {
-  grid-column: 1/4;
-  grid-row: 5/6;
-  width: 10em;
-  margin:  0em 1.7em;
-  padding: 0em;
-}
-
-#score {
-  grid-column: 1/4;
-  grid-row: 7/8;
-  width: 10em;
-  margin:  0em 1.7em;
-}
-
-#latitude {
-  grid-column: 4/5;
-  grid-row: 11/12;
-}
-
-#longitude {
-  grid-column: 4/5;
-  grid-row: 12/13;
-}
-
-#county {
-  grid-column: 4/5;
-  grid-row: 13/14;
-}
-
-#town {
-  grid-column: 4/5;
-  grid-row: 14/15;
-}
-
-#winCondition {
-  grid-column: 1/5;
-  grid-row: 15/17;
-}
-
-
-
-#footerContainer {
-  display: flex;
-  grid-column: 1/6;
-  grid-row: 3/4;
-  border: 2px solid blue;
-  border-radius: 10px;
-  align-items: center;
-  
 }

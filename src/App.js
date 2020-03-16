@@ -317,7 +317,7 @@ class App extends React.Component {
                 </div>
 
                 <div id="headerContainer">
-                    {/* <Header /> */}
+                    <Header />
                 </div>
 
                 <div id='centerContainer'>

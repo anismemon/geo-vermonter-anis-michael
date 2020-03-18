@@ -86,6 +86,8 @@ class Maplet extends React.Component {
         if (this.props.score === 0) {
             this.props.endGame()
         }
+
+        console.log(this.props.countyName)
     }
 
     render() {

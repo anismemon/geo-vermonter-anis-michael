@@ -37,20 +37,20 @@ class MyModal extends React.Component {
   }
 
   onClose = e => {
-    this.props.onClose && this.props.onClose(e)
-  }
+    this.props.onClose && this.props.onClose(e)  }
 
 
-  chooseCounty = e => { //this function does not work!
-    alert(`props from parent = ${this.props.countyChosen}, county selected = ${this.state.selectedCounty}`)
-    
+  chooseCounty = e => { 
 
     if ((this.props.countyChosen) === (this.state.selectedCounty)) {
+      this.props.stopIfCheck()
       this.props.endGame()
       alert("Wow! You really know Vermont! Good job!!")
+      
     } else {
       this.props.score(-10)
       alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
+      this.props.concealModal()
     }
   }
 

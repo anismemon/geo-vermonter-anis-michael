@@ -68,7 +68,9 @@ class App extends React.Component {
 
             modalContent: '',
 
-            countyChosen: ''
+            countyChosen: '',
+
+            stop: ''
         }
     }
 
@@ -296,6 +298,14 @@ class App extends React.Component {
         })
     }
 
+// changes a value in state that can only be read if player guesses correctly (creates a unique if-check)
+
+    uniqueIfCheck = () => {
+        this.setState({
+            stop: 'stop'
+        })
+    }
+
     // display modal function  
 
     displayModal = () => {
@@ -310,6 +320,12 @@ class App extends React.Component {
         });
     };
 
+    concealModal = () => {
+        this.setState({
+            modalDisplayed: false
+        })
+    }
+
     render() {
         return (
             <div id='pageContainer'>
@@ -321,6 +337,8 @@ class App extends React.Component {
                         countyChosen={this.state.countyName}
                         modalDisplayed={this.state.modalDisplayed}
                         score={this.updateScore}
+                        concealModal={this.concealModal}
+                        uniqueIfCheck={this.uniqueIfCheck}
                     >
 
                         {this.state.modalContent}
@@ -334,13 +352,13 @@ class App extends React.Component {
                 <div id='centerContainer'>
 
                     <div id="leaflet-container">
-                        <Maplet gameStarted={this.state.gameStarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} getCountyName={this.getCountyName} score={this.state.score} endGame={this.endGame} />
+                        <Maplet gameStarted={this.state.gameStarted} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} pathArray={this.state.pathArray} getCountyName={this.getCountyName} score={this.state.score} endGame={this.endGame} countyName={this.state.countyName} />
 
                     </div>
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameStarted={this.state.gameStarted} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} northDisabled={this.state.northDisabled} southDisabled={this.state.southDisabled} eastDisabled={this.state.eastDisabled} westDisabled={this.state.westDisabled} />
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameStarted={this.state.gameStarted} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} northDisabled={this.state.northDisabled} southDisabled={this.state.southDisabled} eastDisabled={this.state.eastDisabled} westDisabled={this.state.westDisabled} concealModal={this.concealModal} stop={this.state.stop}/>
 
                     </div>
 

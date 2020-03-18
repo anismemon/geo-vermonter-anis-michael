@@ -54,13 +54,7 @@ class App extends React.Component {
             // buttons 
 
             startDisabled: false,
-            guessDisabled: true,
-            quitDisabled: true,
-            returnDisabled: true,
-            northDisabled: true,
-            southDisabled: true,
-            eastDisabled: true,
-            westDisabled: true,
+            buttonsDisabled: true,
 
             // modal keys
 
@@ -134,13 +128,7 @@ class App extends React.Component {
         this.setState({
             gameStarted: true,
             startDisabled: true,
-            guessDisabled: false,
-            quitDisabled: false,
-            returnDisabled: false,
-            northDisabled: false,
-            southDisabled: false,
-            eastDisabled: false,
-            westDisabled: false
+            buttonsDisabled: false,
         });
 
         // calls checkPoint function
@@ -248,21 +236,7 @@ class App extends React.Component {
                 })
             })
     }
-
-    // checks whether player's guess is correct (but is currently not called and I'm not sure where it needs to be called)
-
-    // checkAnswer = () => {
-    //     if ((this.state.countyChosen) === (this.state.countyName)) {
-    //         this.endGame()
-    //         alert("Wow! You really know Vermont! Good job!!")
-    //     } else {
-    //         this.setState({
-    //             score: this.state.score - 10
-    //         });
-    //         alert("Incorrect guess. Please continue your peregrination through the Green Mountain State.")
-    //     }
-    // }
-
+    
     // function to end game (which then displays initial location info stored in App's state and copied in Sidebar's state)
 
     endGame = () => {
@@ -272,13 +246,7 @@ class App extends React.Component {
         this.setState({
 
             gameStarted: false,
-            guessDisabled: true,
-            returnDisabled: true,
-            northDisabled: true,
-            southDisabled: true,
-            eastDisabled: true,
-            westDisabled: true
-
+            buttonsDisabled: true,   
         });
 
         console.log(this.state.countyName)
@@ -358,14 +326,14 @@ class App extends React.Component {
 
                     <div id="sidebarContainer">
 
-                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameStarted={this.state.gameStarted} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} northDisabled={this.state.northDisabled} southDisabled={this.state.southDisabled} eastDisabled={this.state.eastDisabled} westDisabled={this.state.westDisabled} concealModal={this.concealModal} stop={this.state.stop}/>
+                        <Sidebar score={this.state.score} moveNorth={this.moveNorth} moveSouth={this.moveSouth} moveWest={this.moveWest} moveEast={this.moveEast} returnToStart={this.returnToStart} gameStarted={this.state.gameStarted} countyName={this.state.countyName} town={this.state.town} currentPoint={this.state.currentPoint} startingPoint={this.state.startingPoint} buttonsDisabled={this.state.buttonsDisabled} concealModal={this.concealModal} stop={this.state.stop}/>
 
                     </div>
 
                 </div>
 
                 <div id="footerContainer">
-                    <Footer displayModal={this.displayModal} startGame={this.startGame} startDisabled={this.state.startDisabled} guessDisabled={this.state.guessDisabled} quitDisabled={this.state.quitDisabled} endGame={this.endGame} />
+                    <Footer displayModal={this.displayModal} startGame={this.startGame} startDisabled={this.state.startDisabled} buttonsDisabled={this.state.buttonsDisabled} endGame={this.endGame} />
 
                 </div>
 

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A geographic guessing game in Vermont",
   "dependencies": {
+    "express": "^4.17.1",
     "leaflet": "^1.6.0",
     "leaflet-pip": "^1.1.0",
     "react": "^16.8.6",
